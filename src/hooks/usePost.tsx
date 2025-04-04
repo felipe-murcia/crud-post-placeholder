@@ -3,16 +3,15 @@ import { IPost } from "@/interface/Post";
 import { initialState, postReducer } from "@/reducer/postReducer";
 import { api } from "@/configs/api";
 
-let baseUrl = "https://jsonplaceholder.typicode.com";
-
 export const usePost = () => {
     
     const [ state, dispatch ] = useReducer(postReducer, initialState);
+    
 
     const fetchPosts = async () => {
         dispatch({ type: "FETCH_START" });
         try {
-            const response = await api.get<IPost[]>(`${baseUrl}/posts`);
+            const response = await api.get<IPost[]>(`/posts`);
             dispatch({ type: "FETCH_SUCCESS", payload: response.data });
         } catch (err: any) {
             dispatch({ type: "FETCH_ERROR", payload: err.message || "Error fetching posts" });
@@ -21,9 +20,9 @@ export const usePost = () => {
 
     const createPost = async (newPost: IPost) => {
         try {
-        const response = await api.post<IPost>(`${baseUrl}/posts`, newPost);
-        console.log("response", response);
+        const response = await api.post<IPost>(`/posts`, newPost);
         dispatch({ type: "CREATE_POST", payload: response.data });
+        return response;
         } catch (err: any) {
         dispatch({ type: "FETCH_ERROR", payload: err.message || "Error creating post" });
         }
@@ -31,7 +30,7 @@ export const usePost = () => {
 
     const updatePost = async (id: number, updatedPost: IPost) => {
         try {
-            const response = await api.put<IPost>(`${baseUrl}/posts/${id}`, updatedPost);
+            const response = await api.put<IPost>(`/posts/${id}`, updatedPost);
             dispatch({ type: "UPDATE_POST", payload: response.data });
         } catch (err: any) {
             dispatch({ type: "FETCH_ERROR", payload: err.message || "Error updating post" });
@@ -40,7 +39,7 @@ export const usePost = () => {
 
     const deletePost = async (id: number) => {
         try {
-            await api.delete(`${baseUrl}/posts/${id}`);
+            await api.delete(`/posts/${id}`);
             dispatch({ type: "DELETE_POST", payload: id });
         } catch (err: any) {
             dispatch({ type: "FETCH_ERROR", payload: err.message || "Error deleting post" });

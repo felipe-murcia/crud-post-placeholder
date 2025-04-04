@@ -4,58 +4,83 @@ import {
   Button,
   Field,
   Fieldset,
-  For,
   Input,
-  NativeSelect,
   Stack,
 } from "@chakra-ui/react"
 import { Textarea } from "@chakra-ui/react"
 import { useState } from "react";
+import { NavLink } from "react-router";
+import { useNavigate } from "react-router-dom";
 
-const Create = () => {
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { DialogSample } from "@/components/Dialog/Dialog";
 
-  const { data, createPost } = usePost();
 
-  const [ formData, setFormData ] = useState<IPost>({
-    id: null,
-    userId: 1,
-    title: "Pruerba",
-    body: "Descripcon",
+const schema = yup.object().shape({
+  title: yup.string().required("The ttile is required"),
+  body: yup.string().required("The body is required"),
+});
+
+interface createProps {
+  createPost: (value:IPost) => void
+}
+
+const Create = ({ createPost } : createProps ) => {
+
+  const [open, setOpen] = useState(false);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
-  const handleSubmit = async () => {
-    let res = await createPost(formData)
-    console.log('res[uesta',res);
-  }
+  const navigate = useNavigate();
+  
+  const onSubmit = (data:any) => {
+    createPost({ ...data, id:0, userId: 1});
+    setOpen(true);
+  };
 
 
   return (
     <Fieldset.Root size="lg" maxW="md">
 
+      <DialogSample open={open} onClick={()=>navigate("/")} title={"Saved successfully."}/>
+
+      <Button alignSelf="flex-start" color={"colorPalette.950"}>
+        <NavLink to="/"> Cancelar </NavLink>
+      </Button>
       <Stack>
         <Fieldset.Legend>Formulario de Post</Fieldset.Legend>
-        <Fieldset.HelperText>
-        Por favor, proporciona tus datos de contacto a continuación.
+        <Fieldset.HelperText> 
+          Por favor, proporciona tus datos de contacto a continuación.
         </Fieldset.HelperText>
       </Stack>
 
-      <Fieldset.Content>
-        <Field.Root>
-          <Field.Label>Titulo</Field.Label>
-          <Input name="title" />
-        </Field.Root>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Fieldset.Content>
+          <Field.Root>
+            <Field.Label>Title</Field.Label>
+            <Input {...register("title")} placeholder="title" />
+          </Field.Root>
 
-        <Field.Root>
-          <Field.Label>Email address</Field.Label>
-          <Textarea name="body" placeholder="Comment..." />
-        </Field.Root>
- 
-      </Fieldset.Content>
+          <Field.Root>
+            <Field.Label>Body</Field.Label>
+            <Textarea {...register("body")} placeholder="Comment..."/>
+          </Field.Root>
+  
+        </Fieldset.Content>
+        <br></br>
+        <Button type="submit" width={"1/2"}>
+          Publicar
+        </Button>
 
-      <Button type="submit" onClick={() => handleSubmit()} >
-        Publicar
-      </Button>
-      <Button variant="ghost" alignSelf="flex-start" color={"colorPalette.950"}>Cancelar</Button>
+      </form>
     </Fieldset.Root>
   );
 };
