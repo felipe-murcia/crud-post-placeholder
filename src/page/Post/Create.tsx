@@ -53,7 +53,7 @@ const Create = ({ createPost } : createProps ) => {
       <DialogSample open={open} onClick={()=>navigate("/")} title={"Saved successfully."}/>
 
       <Button alignSelf="flex-start" color={"colorPalette.950"}>
-        <NavLink to="/"> Cancelar </NavLink>
+        <NavLink to="/"> Back </NavLink>
       </Button>
       <Stack>
         <Fieldset.Legend>Formulario de Post</Fieldset.Legend>
@@ -77,7 +77,7 @@ const Create = ({ createPost } : createProps ) => {
         </Fieldset.Content>
         <br></br>
         <Button type="submit" width={"1/2"}>
-          Publicar
+          Publish
         </Button>
 
       </form>

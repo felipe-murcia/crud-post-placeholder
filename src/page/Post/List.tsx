@@ -36,7 +36,7 @@ const List = ({ deletePost = () => {}, data = [] }:listProps) => {
       <Stack alignItems={"flex-end"}  >     
         <Button>
           <NavLink to="/create">
-            Crear
+            Create
           </NavLink>
         </Button>
       </Stack>
