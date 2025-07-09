@@ -1,27 +1,15 @@
 import { IPost } from "@/interface/Post";
 import {
   Button,
-  Field,
   Fieldset,
-  Input,
   Stack,
 } from "@chakra-ui/react"
-import { Textarea } from "@chakra-ui/react"
 import { useState } from "react";
 import { NavLink } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { DialogSample } from "@/components/Dialog/Dialog";
 import FormPost from "../components/FormPost";
-
-
-const schema = yup.object().shape({
-  title: yup.string().required("El campo titulo es requerido").min(5,"Minimo 5 caracteres"),
-  body: yup.string().required("El campo contenido es requerido"),
-});
 
 interface EditProps {
   updatePost: (id:number, value:IPost) => void,
@@ -31,16 +19,6 @@ interface EditProps {
 const Edit = ({ updatePost, post } : EditProps ) => {
 
   const [open, setOpen] = useState(false);
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: post
-  });
-
   const navigate = useNavigate();
   
   const onSubmit = (data:any) => {
