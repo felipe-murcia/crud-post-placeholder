@@ -1,16 +1,15 @@
-import { usePost } from "@/hooks/usePost"
+import { usePost } from "@/page/Post/hooks/usePost"
 import { IPost } from "@/interface/Post"
-import { Card } from "@chakra-ui/react"
+import { Button, Card } from "@chakra-ui/react"
 import { DeleteConfirm } from "../DeleteConfirm/DeleteConfirm"
 
 interface CardPostProps {
     item: IPost
     deletePost: (value:number) => void
+    editPost: (value:IPost) => void
 }
 
-
-
-export const CardPost = ({ item, deletePost }:CardPostProps) => {
+export const CardPost = ({ item, deletePost, editPost }:CardPostProps) => {
   
   return (
     <Card.Root maxW="sm" overflow="hidden">
@@ -21,6 +20,7 @@ export const CardPost = ({ item, deletePost }:CardPostProps) => {
         </Card.Description>
       </Card.Body>
       <Card.Footer gap="2">
+        <Button size="sm" onClick={()=>editPost(item)}>Editar</Button>
         <DeleteConfirm onClick={()=>deletePost(item.id)} />
       </Card.Footer>
     </Card.Root>

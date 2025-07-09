@@ -1,8 +1,6 @@
 import './App.css';
-import { Button, HStack } from "@chakra-ui/react"
-import { RatingGroup } from "@chakra-ui/react"
 import { Container } from "@chakra-ui/react"
-import Post from './page/Post/Index';
+import Post from './page/Post/Views/Index';
 
 const App = () => {
   return (

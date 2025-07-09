@@ -6,7 +6,7 @@ export const DeleteConfirm = ({ onClick }: any) => {
     <Dialog.Root role="alertdialog">
       <Dialog.Trigger asChild>
         <Button variant="outline" size="sm">
-          Delete
+          Eliminar
         </Button>
       </Dialog.Trigger>
       <Portal>

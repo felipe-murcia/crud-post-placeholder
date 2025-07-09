@@ -1,22 +1,26 @@
 import { CardPost } from "@/components/CardPost/CardPost";
 import { IPost } from "@/interface/Post";
-import { Button, Flex, Box, Center, Stack } from "@chakra-ui/react";
-import { NavLink } from "react-router";
+import { Button, Flex, Box, Center, Stack, Input, InputGroup  } from "@chakra-ui/react";
+import { NavLink, redirect, useNavigate } from "react-router";
 import { PaginationRoot, PaginationPrevTrigger,  PaginationItems, PaginationNextTrigger} from '@/components/ui/pagination';
-import { useState } from "react";
-import { Input, InputGroup } from "@chakra-ui/react"
+import { useReducer, useState } from "react";
 import { LuSearch } from "react-icons/lu"
+import { initialState, postReducer } from "@/reducer/postReducer";
 
-interface listProps {
-  deletePost: (value:number) => void
-  data: IPost[]
+interface ListProps {
+  deletePost: (value:number) => void;
+  data: IPost[];
+  editPost: (valie:IPost) => void;
 }
 
-const List = ({ deletePost = () => {}, data = [] }:listProps) => {
+const List = ({ deletePost = () => {}, data = [], editPost = () => {} }:ListProps) => {
 
   const [ currentPage, setCurrentPage] = useState(1);
   const [ search, setSearch ] = useState("");
   const pageSize = 6;
+
+  const [ state, dispatch ] = useReducer(postReducer, initialState);
+  const navigate = useNavigate();
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -28,6 +32,11 @@ const List = ({ deletePost = () => {}, data = [] }:listProps) => {
       )
   ); 
 
+  const setValueEdit = async (data:IPost) => {
+    editPost(data)
+    navigate("/edit");
+  }
+
   const paginatedData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   
   return (
@@ -36,7 +45,7 @@ const List = ({ deletePost = () => {}, data = [] }:listProps) => {
       <Stack alignItems={"flex-end"}  >     
         <Button>
           <NavLink to="/create">
-            Create
+            Crear
           </NavLink>
         </Button>
       </Stack>
@@ -49,7 +58,7 @@ const List = ({ deletePost = () => {}, data = [] }:listProps) => {
 
       <Flex gap="4" wrap="wrap" mt="4" justifyContent={'center'}>
         {paginatedData.map((post: IPost) => (
-            <CardPost key={post.id} item={post} deletePost={deletePost}  />
+            <CardPost key={post.id} item={post} deletePost={deletePost} editPost={setValueEdit} />
         ))}
       </Flex>
 

@@ -1,16 +1,14 @@
-import { CardPost } from "@/components/CardPost/CardPost";
-import { usePost } from "@/hooks/usePost";
+import { usePost } from "@/page/Post/hooks/usePost";
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import List from "./List";
 import Create from "./Create";
+import Edit from "./Edit";
 
 const Index = () => {
 
-  //const navigate = useNavigate();
-  const { data, createPost, deletePost } = usePost();
-  
+  const { data, createPost, deletePost, updatePost, postData, editPost } = usePost();
+
   return (
     <div>
       <Stack align="center">
@@ -22,13 +20,14 @@ const Index = () => {
 
       <BrowserRouter>
         <Routes>
-            <Route path="/" element={<List  data={data} deletePost={deletePost}/>} />
-            <Route path="/create" element={<Create createPost={createPost} />} />
+          <Route
+            path="/"
+            element={<List data={data} deletePost={deletePost} editPost={editPost} />}
+          />
+          <Route path="/create" element={<Create createPost={createPost} />} />
+          <Route path="/edit" element={<Edit updatePost={updatePost} post={postData} />} />
         </Routes>
-        </BrowserRouter>
-
-
-
+      </BrowserRouter>
     </div>
   );
 };

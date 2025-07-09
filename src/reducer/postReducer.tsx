@@ -2,6 +2,7 @@ import { IPost } from "@/interface/Post";
 
 export const initialState = {
     posts: [] as IPost[],
+    post: {} as IPost,
     loading: false,
     error: null as string | null,
 };
@@ -12,6 +13,7 @@ export const initialState = {
     | { type: "FETCH_ERROR"; payload: string }
     | { type: "CREATE_POST"; payload: IPost }
     | { type: "UPDATE_POST"; payload: IPost }
+    | { type: "SET_POST"; payload: IPost }
     | { type: "DELETE_POST"; payload: number };
   
   export const postReducer = (state: typeof initialState, action: Action) => {
@@ -24,6 +26,9 @@ export const initialState = {
         return { ...state, loading: false, error: action.payload };
       case "CREATE_POST":
         return { ...state, posts: [...state.posts, action.payload] };
+      case "SET_POST":
+        console.log("entro ",action.payload )
+        return { ...state, post: action.payload };
       case "UPDATE_POST":
         return {
           ...state,
