@@ -5,7 +5,7 @@ import List from "./List";
 import Create from "./Create";
 import Edit from "./Edit";
 
-const Index = () => {
+const Post = () => {
 
   const { data, createPost, deletePost, updatePost, postData, editPost } = usePost();
 
@@ -32,4 +32,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Post;
