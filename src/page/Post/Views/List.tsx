@@ -1,11 +1,10 @@
 import { CardPost } from "@/components/CardPost/CardPost";
 import { IPost } from "@/interface/Post";
 import { Button, Flex, Box, Center, Stack, Input, InputGroup  } from "@chakra-ui/react";
-import { NavLink, redirect, useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { PaginationRoot, PaginationPrevTrigger,  PaginationItems, PaginationNextTrigger} from '@/components/ui/pagination';
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { LuSearch } from "react-icons/lu"
-import { initialState, postReducer } from "@/reducer/postReducer";
 
 interface ListProps {
   deletePost: (value:number) => void;
@@ -19,7 +18,6 @@ const List = ({ deletePost = () => {}, data = [], editPost = () => {} }:ListProp
   const [ search, setSearch ] = useState("");
   const pageSize = 6;
 
-  const [ state, dispatch ] = useReducer(postReducer, initialState);
   const navigate = useNavigate();
 
   const handlePageChange = (page: number) => {
@@ -28,7 +26,7 @@ const List = ({ deletePost = () => {}, data = [], editPost = () => {} }:ListProp
 
   const filteredData = data.filter(item =>
       Object.values(item).some(val =>
-      String(val).toLowerCase().includes(search.toLowerCase())
+        String(val).toLowerCase().includes(search.toLowerCase())
       )
   ); 
 
@@ -64,7 +62,7 @@ const List = ({ deletePost = () => {}, data = [], editPost = () => {} }:ListProp
 
       <br />
 
-      <Box  marginBottom={10}  >
+      <Box  marginBottom={10}>
         <Center>
           <PaginationRoot count={data.length} pageSize={pageSize} defaultPage={1} 
           onPageChange={(value:{ page: number })=>handlePageChange(value.page)}>

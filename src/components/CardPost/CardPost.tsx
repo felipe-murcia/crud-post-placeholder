@@ -1,4 +1,3 @@
-import { usePost } from "@/page/Post/hooks/usePost"
 import { IPost } from "@/interface/Post"
 import { Button, Card } from "@chakra-ui/react"
 import { DeleteConfirm } from "../DeleteConfirm/DeleteConfirm"
